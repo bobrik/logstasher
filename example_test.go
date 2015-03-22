@@ -7,7 +7,7 @@ import (
 	"github.com/bobrik/logstasher"
 )
 
-func ExampleLogWriter() {
+func ExampleWriter() {
 	w := logstasher.NewWriter(os.Stdout, "myapp", []string{"nice", "tags"}, nil)
 
 	log.SetFlags(0)
