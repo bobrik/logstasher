@@ -6,13 +6,18 @@ It wraps any writer and writes logstash events to it.
 This is how output lines look like:
 
 ```json
-{"@version":1,"@type":"something","@timestamp":"2015-03-22T12:46:23.632679998Z","@message":"haha","@tags":["one","two"],"@fields":{"pi":3.14}}
+{"@timestamp":"2015-03-22T13:34:43.973174775Z","@version":1,"message":"hello","shards":[1,2,3],"tags":["wow","such"]}
 ```
 
 ## Usage
 
 ```go
-w := logstasher.NewWriter(os.Stdout, "myapp", []string{"nice", "tags"}, nil)
+f := map[string]interface{}{
+    "app":    "myapp",
+    "things": []string{"something", "another"},
+}
+
+w := logstasher.NewWriter(os.Stdout, f)
 
 log.SetFlags(0)
 log.SetOutput(w)
@@ -22,12 +27,12 @@ log.Println("hey, logstash!")
 
 ## CLI
 
-Logstasher provides command `logstasher` that can be used in unix pipes as filter.
-It reads lines from stdin, turns them into logstash events and writes to stdout:
+Logstasher provides command `logstasher` that can be used in unix pipes.
+It reads lines from stdin, turns them into json events and writes to stdout:
 
 ```
-λ echo reporting from $(hostname -s) | logstasher -type something
-{"@version":1,"@type":"something","@timestamp":"2015-03-22T12:45:23.991968768Z","@message":"reporting from hyperion"}
+λ echo reporting from $(hostname -s) | logstasher -fields '{"app":"myapp","pi":3.14}'
+{"@timestamp":"2015-03-22T13:33:42.344282854Z","@version":1,"app":"myapp","message":"reporting from hyperion","pi":3.14}
 ```
 
 ## License

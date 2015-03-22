@@ -8,7 +8,12 @@ import (
 )
 
 func ExampleWriter() {
-	w := logstasher.NewWriter(os.Stdout, "myapp", []string{"nice", "tags"}, nil)
+	f := map[string]interface{}{
+		"app":    "myapp",
+		"things": []string{"something", "another"},
+	}
+
+	w := logstasher.NewWriter(os.Stdout, f)
 
 	log.SetFlags(0)
 	log.SetOutput(w)
