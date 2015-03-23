@@ -104,13 +104,12 @@ func main() {
 
 	w := logstasher.NewWriter(o, extra)
 
-	log.SetFlags(0)
-	log.SetOutput(w)
-
 	s := bufio.NewScanner(os.Stdin)
-
 	for s.Scan() {
-		log.Println(s.Text())
+		_, err := w.Write(s.Bytes())
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	if err := s.Err(); err != nil {
