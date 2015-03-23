@@ -35,6 +35,9 @@ It reads lines from stdin, turns them into json events and writes to stdout:
 {"@timestamp":"2015-03-22T13:33:42.344282854Z","@version":1,"app":"myapp","message":"reporting from hyperion","pi":3.14}
 ```
 
+You can also pass `-out` option with filename to write and `logstasher` would
+happily write to that file, detecting log rotation and removal.
+
 ## License
 
 MIT
