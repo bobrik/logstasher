@@ -35,8 +35,28 @@ It reads lines from stdin, turns them into json events and writes to stdout:
 {"@timestamp":"2015-03-22T13:33:42.344282854Z","@version":1,"app":"myapp","message":"reporting from hyperion","pi":3.14}
 ```
 
+
 You can also pass `-out` option with filename to write and `logstasher` would
 happily write to that file, detecting log rotation and removal.
+
+## Docker image
+
+You can use minimal (8mb) docker image `bobrik/logstasher` to run logstasher:
+
+```
+# docker run --rm -it bobrik/logstasher -fields '{"from":"docker"}'
+hey
+{"@timestamp":"2015-03-23T15:48:02.543517666Z","@version":1,"from":"docker","message":"hey"}
+```
+
+or to install `logstasher` binary to your host:
+
+```
+# docker run --rm -v /usr/bin:/target bobrik/logstasher
+installing logstaher in /target
+# which logstasher
+/usr/bin/logstasher
+```
 
 ## License
 
