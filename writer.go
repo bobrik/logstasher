@@ -9,14 +9,14 @@ import (
 
 // Writer wraps another writer and writes json events to it
 type Writer struct {
-	e      *json.Encoder
+	w      io.Writer
 	fields map[string]interface{}
 }
 
 // NewWriter creates new wrapper around existing writer
 func NewWriter(w io.Writer, fields map[string]interface{}) Writer {
 	return Writer{
-		e:      json.NewEncoder(w),
+		w:      w,
 		fields: fields,
 	}
 }
@@ -32,5 +32,5 @@ func (w Writer) Write(p []byte) (n int, err error) {
 		e[k] = v
 	}
 
-	return len(p), w.e.Encode(e)
+	return len(p), json.NewEncoder(w.w).Encode(e)
 }
