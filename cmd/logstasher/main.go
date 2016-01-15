@@ -10,6 +10,7 @@ import (
 	"os"
 	"sync"
 	"time"
+	"syscall"
 
 	"github.com/bobrik/logstasher"
 )
@@ -53,6 +54,11 @@ func (w *outWrapper) reopen() error {
 func (w *outWrapper) Write(p []byte) (n int, err error) {
 	w.m.Lock()
 	defer w.m.Unlock()
+
+	if err = syscall.Flock(int(w.f.Fd()), syscall.LOCK_EX); err != nil {
+		return -1, err
+	}
+	defer syscall.Flock(int(w.f.Fd()), syscall.LOCK_UN)
 
 	return w.f.Write(p)
 }
