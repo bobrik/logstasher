@@ -9,8 +9,8 @@ import (
 	"log"
 	"os"
 	"sync"
-	"time"
 	"syscall"
+	"time"
 
 	"github.com/bobrik/logstasher"
 )
